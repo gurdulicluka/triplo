@@ -1,0 +1,11 @@
+{
+  "name": "triplo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Luka Gurdulic",
+  "private": true,
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ]
+}
