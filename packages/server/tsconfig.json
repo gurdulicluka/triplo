@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json", // Extend the base config from the root
+  "compilerOptions": {
+    "outDir": "dist", // Output compiled files to dist folder
+    "declaration": true, // Generate .d.ts files for server
+    "declarationMap": true, // Generate source maps for .d.ts files
+    "module": "ESNext", // Use ESNext modules
+    "target": "ES2020", // Target modern Node.js versions
+    "esModuleInterop": true, // For compatibility with CommonJS and ESModules
+    "allowSyntheticDefaultImports": true, // Allow default imports from CommonJS modules
+    "strict": true, // Enable strict type checking
+    "moduleResolution": "node", // Use Node.js module resolution
+    "paths": {
+      "@triplo/common": ["../common/src"] // Path mapping to the common package
+    }
+  },
+  "include": ["src/**/*"], // Include all files in the src directory
+  "exclude": ["node_modules", "dist"]
+}

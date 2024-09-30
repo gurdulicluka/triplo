@@ -1,10 +1,13 @@
 {
+  "extends": "../../tsconfig.json",
   "name": "@triplo/server",
   "version": "1.0.0",
   "main": "index.js",
   "private": true,
   "license": "MIT",
+  "scripts": {},
   "dependencies": {
     "@triplo/common": "1.0.0"
-  }
+  },
+  "devDependencies": {}
 }
