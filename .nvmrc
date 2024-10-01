@@ -1,0 +1,5 @@
+echo "v20.12.2" > .nvmrc
+nvm install
+nvm use
+node -v
+# v20.12.2
