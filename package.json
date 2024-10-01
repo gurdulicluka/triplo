@@ -6,8 +6,10 @@
 	"private": true,
 	"license": "MIT",
 	"scripts": {
-		"dev": "concurrently --names \"CLIENT,SERVER\" --prefix-colors \"bgBlue.bold,bgGreen.bold\" \"yarn --cwd packages/client dev\" \"yarn --cwd packages/server dev\"",
-		"build": "concurrently \"yarn --cwd packages/client build\" \"yarn --cwd packages/server build\"",
+		"dev:client": "yarn --cwd packages/client dev",
+		"dev:server": "yarn --cwd packages/server dev",
+		"dev:apps": "concurrently --names \"CLIENT,SERVER\" --prefix-colors \"bgBlue.bold,bgGreen.bold\" \"yarn --cwd packages/client dev\" \"yarn --cwd packages/server dev\"",
+		"build:apps": "concurrently \"yarn --cwd packages/client build\" \"yarn --cwd packages/server build\"",
 		"build:common": "yarn --cwd packages/common build",
 		"typecheck": "concurrently --names \"CLIENT,SERVER,COMMON\" --prefix-colors \"bgBlue.bold,bgGreen.bold,bgMagenta.bold\" \"yarn --cwd packages/client typecheck\" \"yarn --cwd packages/server typecheck\" \"yarn --cwd packages/common typecheck\"",
 		"biome:check": "concurrently --names \"CLIENT,SERVER,COMMON\" --prefix-colors \"bgBlue.bold,bgGreen.bold,bgMagenta.bold\" \"yarn biome check ./packages/client/src\" \"yarn biome check ./packages/server/src\" \"yarn biome check ./packages/common/src\"",
