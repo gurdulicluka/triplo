@@ -6,6 +6,7 @@ import { router } from "./routes/router";
 import { logger } from "./utils/logger";
 
 const PORT = process.env.PORT || 3000;
+
 const startServer = async () => {
 	try {
 		await initializeDatabase();

@@ -29,6 +29,6 @@
 			"@triplo/common": ["../common/src"] // Path mapping to the common package
 		}
 	},
-	"include": ["src/**/*"], // Include all files in the src directory
+	"include": ["src/**/*.d.ts", "src/**/*.ts"],
 	"exclude": ["node_modules", "dist"]
 }
