@@ -11,7 +11,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.9.1",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@triplo/common": "1.0.0",
+    "framer-motion": "^11.9.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
