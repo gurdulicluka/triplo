@@ -1,0 +1,27 @@
+{
+	"recommendations": [
+		// Biome extension for linting and formatting (similar to ESLint and Prettier, combined)
+		"biome-sh.biome",
+
+		// Tailwind CSS IntelliSense for auto-complete and linting of Tailwind classes
+		"bradlc.vscode-tailwindcss",
+
+		// Git Blame shows the author of each line of code and the commit message
+		"waderyan.gitblame",
+
+		// Comment Divider helps organize code with customizable comment dividers
+		"stackbreak.comment-divider",
+
+		// Automatically closes HTML and JSX tags
+		"formulahendry.auto-close-tag",
+
+		// Automatically renames paired HTML and JSX tags when you rename one
+		"formulahendry.auto-rename-tag",
+
+		// Prettifies TypeScript error messages for easier debugging
+		"yoavbls.pretty-ts-errors",
+
+		// ErrorLens highlights errors and warnings directly in the code, making them more visible
+		"usernamehw.errorlens"
+	]
+}
