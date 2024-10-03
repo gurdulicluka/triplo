@@ -7,7 +7,7 @@ const userSchema = z.object({
 	phone: z.string().min(10, "Phone number must be at least 10 digits"),
 });
 
-type UserSchemaType = z.infer<typeof userSchema>;
+type UserType = z.infer<typeof userSchema>;
 
 export { userSchema };
-export type { UserSchemaType };
+export type { UserType };

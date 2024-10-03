@@ -1,5 +1,16 @@
+import type { IncomingMessage, ServerResponse } from "node:http";
 import * as userController from "../controllers/user.controller";
-import type { Route } from "./types.ts";
+
+type Route = {
+	method: string;
+	url: string;
+
+	handler: (
+		req: IncomingMessage,
+		res: ServerResponse,
+		params: { [key: string]: string },
+	) => Promise<void>;
+};
 
 const routes: Route[] = [
 	// USER
@@ -16,6 +27,8 @@ const routes: Route[] = [
 		url: "/users/update/:id",
 		handler: userController.updateUser,
 	},
+	// AUTH
 ];
 
 export { routes };
+export type { Route };

@@ -1,5 +1,5 @@
 import type { IncomingMessage } from "node:http";
-import type { Route } from "../routes/types";
+import type { Route } from "../routes/routes";
 import { logger } from "./logger";
 import { getSegmentedUrlArray, ignoreQueryParams } from "./url";
 

@@ -3,6 +3,7 @@ import { createServer } from "node:http";
 
 import { initializeDatabase } from "./config/database";
 import { router } from "./routes/router";
+import { authService } from "./services/auth.service";
 import { logger } from "./utils/logger";
 
 const PORT = process.env.PORT || 3000;
@@ -23,3 +24,5 @@ const startServer = async () => {
 startServer().catch((error) => {
 	logger.info("Error starting server:", error);
 });
+
+const auth = authService;
