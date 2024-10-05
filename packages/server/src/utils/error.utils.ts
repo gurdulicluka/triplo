@@ -4,6 +4,7 @@ import { sendJsonResponse } from "./response.utils";
 
 const handleError = (error: unknown, res: ServerResponse) => {
 	if (error instanceof ZodError) {
+		console.log(error);
 		sendJsonResponse(res, 400, { error: error.issues });
 		return;
 	}
