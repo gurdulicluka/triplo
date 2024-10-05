@@ -46,11 +46,14 @@
 			}
 		},
 		{
-			"include": ["packages/server/src/++"],
+			"include": ["packages/server/src"],
 			"linter": {
 				"rules": {
 					"suspicious": {
 						"noConsoleLog": "info"
+					},
+					"complexity": {
+						"noStaticOnlyClass": "off"
 					}
 				}
 			}

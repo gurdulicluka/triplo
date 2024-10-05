@@ -2,7 +2,7 @@ import type { ServerResponse } from "node:http";
 import { ZodError } from "zod";
 import { sendJsonResponse } from "./response.utils";
 
-const handleError = (error: unknown, res: ServerResponse) => {
+const errorResponse = (error: unknown, res: ServerResponse) => {
 	if (error instanceof ZodError) {
 		console.log(error);
 		sendJsonResponse(res, 400, { error: error.issues });
@@ -12,4 +12,4 @@ const handleError = (error: unknown, res: ServerResponse) => {
 	return;
 };
 
-export { handleError };
+export { errorResponse };

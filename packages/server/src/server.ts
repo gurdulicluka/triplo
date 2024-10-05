@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { createServer } from "node:http";
 
 import { initializeDatabase } from "./config/database";
+import { BaseError } from "./dtos/error/BaseError";
 import { router } from "./routes/router";
 import { authService } from "./services/auth.service";
 import { logger } from "./utils/logger.utils";
