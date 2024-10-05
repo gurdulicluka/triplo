@@ -4,7 +4,7 @@ import { createServer } from "node:http";
 import { initializeDatabase } from "./config/database";
 import { router } from "./routes/router";
 import { authService } from "./services/auth.service";
-import { logger } from "./utils/logger";
+import { logger } from "./utils/logger.utils";
 
 const PORT = process.env.PORT || 3000;
 

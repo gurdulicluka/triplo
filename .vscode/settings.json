@@ -5,15 +5,9 @@
 	// Set default formatter to Prettier
 	"editor.defaultFormatter": "biomejs.biome",
 
-	// Enable TypeScript strict null checks (or any other TypeScript-related settings)
-	"typescript.tsdk": "node_modules/typescript/lib",
-
 	// Specify preferred tab size and type
 	"editor.tabSize": 2,
 	"editor.insertSpaces": true,
-
-	// Ensure proper end-of-line format (useful for cross-platform teams)
-	"files.eol": "\n",
 
 	// Additional workspace settings (optional)
 	"search.exclude": {

@@ -1,5 +1,5 @@
 import type { ServerResponse } from "node:http";
-import { sendJsonResponse } from "./response";
+import { sendJsonResponse } from "./response.utils";
 
 const validateParam = (res: ServerResponse, param: string, message: string) => {
 	const parsedParam = Number.parseInt(param, 10);

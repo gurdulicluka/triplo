@@ -3,10 +3,12 @@ import {
 	CreateDateColumn,
 	Entity,
 	PrimaryGeneratedColumn,
+	Unique,
 	UpdateDateColumn,
 } from "typeorm";
 
 @Entity()
+@Unique("UQ_EMAIL", ["email"])
 class User {
 	@PrimaryGeneratedColumn()
 	id: number;
@@ -14,13 +16,13 @@ class User {
 	@Column({ type: "varchar" })
 	name: string;
 
-	@Column({ type: "varchar", unique: true })
+	@Column({ type: "varchar" })
 	email: string;
 
 	@Column({ type: "varchar" })
 	password: string;
 
-	@Column({ type: "varchar", unique: true })
+	@Column({ type: "varchar" })
 	phone: string;
 
 	@UpdateDateColumn()

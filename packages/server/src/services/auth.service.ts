@@ -40,7 +40,7 @@ class AuthService {
 
 	public validateToken(token: string): { userId: number } | null {
 		try {
-			return jwt.verify(token, this.JWT_SECRET) as { userId: number }; // Type assertion
+			return jwt.verify(token, this.JWT_SECRET) as { userId: number };
 		} catch (error) {
 			console.error("Token validation failed:", error);
 			return null;
@@ -49,7 +49,7 @@ class AuthService {
 
 	public validateRefreshToken(token: string): { userId: number } | null {
 		try {
-			return jwt.verify(token, this.REFRESH_TOKEN_SECRET) as { userId: number }; // Type assertion
+			return jwt.verify(token, this.REFRESH_TOKEN_SECRET) as { userId: number };
 		} catch (error) {
 			console.error("Refresh token validation failed:", error);
 			return null;

@@ -1,8 +1,22 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { routes } from ".";
+import * as userController from "../controllers/user.controller";
 import { logger } from "../utils/logger.utils";
 import { sendJsonResponse } from "../utils/response.utils";
 import { matchRoute } from "../utils/router.utils";
+import { userRoutes } from "./user.routes";
+
+type Route = {
+	method: string;
+	url: string;
+
+	handler: (
+		req: IncomingMessage,
+		res: ServerResponse,
+		params: { [key: string]: string },
+	) => Promise<void>;
+};
+
+const routes: Route[] = [...userRoutes];
 
 async function router(req: IncomingMessage, res: ServerResponse) {
 	for (const route of routes) {
@@ -24,4 +38,5 @@ async function router(req: IncomingMessage, res: ServerResponse) {
 	return;
 }
 
-export { router };
+export { routes, router };
+export type { Route };

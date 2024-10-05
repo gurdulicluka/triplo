@@ -1,6 +1,6 @@
 import type { ServerResponse } from "node:http";
 import { ZodError } from "zod";
-import { sendJsonResponse } from "./response";
+import { sendJsonResponse } from "./response.utils";
 
 const handleError = (error: unknown, res: ServerResponse) => {
 	if (error instanceof ZodError) {

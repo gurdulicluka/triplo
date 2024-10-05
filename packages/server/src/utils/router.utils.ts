@@ -1,7 +1,7 @@
 import type { IncomingMessage } from "node:http";
-import type { Route } from "../routes/routes";
-import { logger } from "./logger";
-import { getSegmentedUrlArray, ignoreQueryParams } from "./url";
+import type { Route } from "../routes";
+import { logger } from "./logger.utils";
+import { getSegmentedUrlArray, ignoreQueryParams } from "./url.utils";
 
 function matchRoute(
 	req: IncomingMessage,

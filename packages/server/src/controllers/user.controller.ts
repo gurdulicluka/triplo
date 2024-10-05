@@ -1,9 +1,9 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
+import { userSchema } from "../schemas/user.schema";
 import { UserService } from "../services/user.service";
-import { handleError } from "../utils/error";
-import { validateParam } from "../utils/params";
-import { sendJsonResponse } from "../utils/response";
-import { userSchema } from "../validators/user.validator";
+import { handleError } from "../utils/error.utils";
+import { validateParam } from "../utils/params.utils";
+import { sendJsonResponse } from "../utils/response.utils";
 
 const userService = new UserService();
 
@@ -22,6 +22,7 @@ async function createUser(req: IncomingMessage, res: ServerResponse) {
 			const user = await userService.createUser(parsedData);
 			sendJsonResponse(res, 201, user);
 		} catch (error) {
+			console.error(error);
 			handleError(error, res);
 		}
 	});
