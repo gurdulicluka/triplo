@@ -1,119 +1,100 @@
-import type { IncomingMessage } from "node:http";
 import { ApplicationErrorCodeEnum } from "../../enums/error.enum";
 import { BaseError } from "./BaseError";
-// TODO details revisit if you need details, just use message for the frontend?
-interface ErrorParams {
-	req: IncomingMessage; // Accept the IncomingMessage object
-	details: string; // Optional details for the error
-}
+
+const errorDetails = {
+	NotFound: "Resource not found",
+	InvalidCredentials:
+		"The provided username or password is incorrect. Please try again.",
+	DataValidation: "Data validation failed",
+	ResourceConflict: "Resource conflict occurred",
+	UnauthorizedAccess: "Unauthorized access",
+	InternalServerError: "An internal server error occurred",
+	ForbiddenAction: "Action is forbidden",
+};
 
 class NotFoundError extends BaseError {
-	constructor({ req, details }: ErrorParams) {
+	constructor(userMessage: string) {
 		super({
-			message: "Resource not found",
+			userMessage,
 			statusCode: 404,
 			title: "Not Found",
-			path: req.url || "Unknown path",
 			errorCode: ApplicationErrorCodeEnum.NotFound,
-			details,
-			method: req.method || "Unknown method",
+			details: errorDetails.NotFound,
 		});
 	}
 }
 
 class InvalidCredentialsError extends BaseError {
-	constructor({ req, details }: ErrorParams) {
+	constructor(userMessage: string) {
 		super({
-			message:
-				"The provided username or password is incorrect. Please try again.",
+			userMessage,
 			statusCode: 401,
 			title: "Invalid Credentials",
-			path: req.url || "Unknown path",
 			errorCode: ApplicationErrorCodeEnum.InvalidCredentials,
-			details,
-			method: req.method || "Unknown method",
+			details: errorDetails.InvalidCredentials,
 		});
 	}
 }
 
 class DataValidationError extends BaseError {
-	constructor({ req, details }: ErrorParams) {
+	constructor(userMessage: string) {
 		super({
-			message: "Data validation failed",
+			userMessage,
 			statusCode: 400,
 			title: "Bad Request",
-			path: req.url || "Unknown path",
 			errorCode: ApplicationErrorCodeEnum.DataValidationError,
-			details,
-			method: req.method || "Unknown method",
+			details: errorDetails.DataValidation,
 		});
 	}
 }
 
 class ResourceConflictError extends BaseError {
-	constructor({ req, details }: ErrorParams) {
+	constructor(userMessage: string) {
 		super({
-			message: "Resource conflict occurred",
+			userMessage,
 			statusCode: 409,
 			title: "Conflict",
-			path: req.url || "Unknown path",
 			errorCode: ApplicationErrorCodeEnum.ResourceConflict,
-			details,
-			method: req.method || "Unknown method",
+			details: errorDetails.ResourceConflict,
 		});
 	}
 }
 
 class UnauthorizedAccessError extends BaseError {
-	constructor({ req, details }: ErrorParams) {
+	constructor(userMessage: string) {
 		super({
-			message: "Unauthorized access",
+			userMessage,
 			statusCode: 403,
 			title: "Forbidden",
-			path: req.url || "Unknown path",
 			errorCode: ApplicationErrorCodeEnum.UnauthorizedAccess,
-			details,
-			method: req.method || "Unknown method",
+			details: errorDetails.UnauthorizedAccess,
 		});
 	}
 }
 
 class InternalServerError extends BaseError {
-	constructor({ req, details }: ErrorParams) {
+	constructor(userMessage: string) {
 		super({
-			message: "An internal server error occurred",
+			userMessage,
 			statusCode: 500,
 			title: "Internal Server Error",
-			path: req.url || "Unknown path",
 			errorCode: ApplicationErrorCodeEnum.InternalServerError,
-			details,
-			method: req.method || "Unknown method",
+			details: errorDetails.InternalServerError,
 		});
 	}
 }
 
 class ForbiddenActionError extends BaseError {
-	constructor({ req, details }: ErrorParams) {
+	constructor(userMessage: string) {
 		super({
-			message: "Action is forbidden",
+			userMessage,
 			statusCode: 403,
 			title: "Forbidden",
-			path: req.url || "Unknown path",
 			errorCode: ApplicationErrorCodeEnum.ForbiddenAction,
-			details,
-			method: req.method || "Unknown method",
+			details: errorDetails.ForbiddenAction,
 		});
 	}
 }
-
-type ApplicationErrors =
-	| NotFoundError
-	| InvalidCredentialsError
-	| DataValidationError
-	| ResourceConflictError
-	| UnauthorizedAccessError
-	| InternalServerError
-	| ForbiddenActionError;
 
 export {
 	ForbiddenActionError,
@@ -123,5 +104,4 @@ export {
 	ResourceConflictError,
 	UnauthorizedAccessError,
 	DataValidationError,
-	type ApplicationErrors,
 };

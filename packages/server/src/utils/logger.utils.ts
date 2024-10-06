@@ -4,8 +4,8 @@ const { combine, colorize, label, timestamp, printf } = format;
 const myCustomFormat = format.combine(
 	format((info) => ({ ...info, level: info.level.toUpperCase() }))(),
 	colorize({ level: true, message: true }),
-	label({ label: "--->" }),
-	timestamp({ format: "DD-MM-YYYY HH:MM:SS" }),
+	label({ label: ">>>" }),
+	timestamp({ format: "DD/MM/YY HH:MM" }),
 	printf(
 		(info) =>
 			` ${info.label} ${info.timestamp}  [${info.level}]: ${info.message}`,
@@ -14,16 +14,15 @@ const myCustomFormat = format.combine(
 
 addColors({
 	info: "bold blue",
-	warn: "italic yellow",
+	warn: "bold yellow",
 	error: "bold red",
-	debug: "italic green",
+	debug: "bold green",
 });
 
 const logger = createLogger({
-	level: "info",
+	level: "debug",
 	transports: [
 		new transports.Console({ format: combine(myCustomFormat) }),
-		// Logs only errors to a dedicated errors file
 		new transports.File({ filename: "errors.log", level: "error" }),
 	],
 });

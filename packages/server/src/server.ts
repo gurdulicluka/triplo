@@ -15,15 +15,15 @@ const startServer = async () => {
 
 		const server = createServer(router);
 		server.listen(PORT, () => {
-			logger.info(`Server running on port ${PORT}`);
+			logger.debug(`Server running on port ${PORT}`);
 		});
 	} catch (error) {
-		logger.info("Error connecting to the database", error);
+		logger.error("Error connecting to the database", error);
 	}
 };
 
 startServer().catch((error) => {
-	logger.info("Error starting server:", error);
+	logger.error("Error starting server:", error);
 });
 
 const auth = authService;

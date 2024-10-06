@@ -1,9 +1,17 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { ZodError } from "zod";
-import type { ApplicationErrors } from "../dtos/error/CustomError";
+import {
+	DataValidationError,
+	ForbiddenActionError,
+	InternalServerError,
+	InvalidCredentialsError,
+	NotFoundError,
+	ResourceConflictError,
+	UnauthorizedAccessError,
+} from "../dtos/error/CustomError";
 
 class HttpResponseHandler {
-	private static sendHttpResponse(
+	public static sendHttpResponse(
 		res: ServerResponse,
 		statusCode: number,
 		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -19,27 +27,35 @@ class HttpResponseHandler {
 		HttpResponseHandler.sendHttpResponse(res, 200, data);
 	}
 
+	// TODO ZodError handling
+	// TODO Database error handling (e.g. user already exists UNIQUE COLUMN CONSTRAINT take codes from enum)
 	static errorResponse(
-		error: ApplicationErrors | ZodError,
+		error: unknown,
 		req: IncomingMessage,
 		res: ServerResponse,
 	) {
 		const method = req.method || "Unknown method";
 		const url = req.url || "Unknown URL";
 
-		// Handle validation errors from Zod
-		if (error instanceof ZodError) {
-			console.error(`Validation Error: ${method} ${url}`, error);
+		const customErrors = [
+			NotFoundError,
+			InvalidCredentialsError,
+			DataValidationError,
+			ResourceConflictError,
+			UnauthorizedAccessError,
+			InternalServerError,
+			ForbiddenActionError,
+		];
 
-			HttpResponseHandler.sendHttpResponse(res, 400, {
-				success: false,
-				error: "Validation failed",
-				details: error.issues,
-			});
-			return;
+		for (const CustomError of customErrors) {
+			if (error instanceof CustomError) {
+				error.method = method;
+				error.path = url;
+
+				HttpResponseHandler.sendHttpResponse(res, error.statusCode, error);
+				return;
+			}
 		}
-
-		HttpResponseHandler.sendHttpResponse(res, error.statusCode, error);
 	}
 }
 

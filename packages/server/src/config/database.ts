@@ -17,7 +17,7 @@ const db = new DataSource({
 const initializeDatabase = async () => {
 	try {
 		await db.initialize();
-		logger.info("Data Source has been initialized!");
+		logger.debug("Data Source has been initialized!");
 	} catch (err) {
 		logger.error("Error during Data Source initialization", err);
 		throw err;

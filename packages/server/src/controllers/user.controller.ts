@@ -1,14 +1,13 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { userSchema } from "../schemas/user.schema";
 import { UserService } from "../services/user.service";
-import { errorResponse } from "../utils/error.utils";
 import { validateParam } from "../utils/params.utils";
 import { collectRequestBody } from "../utils/request.utils";
 import { HttpResponseHandler } from "../utils/response.utils";
 
 const userService = new UserService();
 
-// CREATE
+/* ------------------------------- CREATE USER ------------------------------ */
 async function createUser(req: IncomingMessage, res: ServerResponse) {
 	try {
 		const body = await collectRequestBody(req);
@@ -21,7 +20,7 @@ async function createUser(req: IncomingMessage, res: ServerResponse) {
 	}
 }
 
-// GET
+/* -------------------------------- GET USER -------------------------------- */
 async function getUser(
 	req: IncomingMessage,
 	res: ServerResponse,
@@ -38,7 +37,7 @@ async function getUser(
 	}
 }
 
-// GET ALL
+/* ------------------------------ GET ALL USER ------------------------------ */
 async function getAllUsers(req: IncomingMessage, res: ServerResponse) {
 	try {
 		const users = await userService.getAllUsers();
@@ -48,7 +47,7 @@ async function getAllUsers(req: IncomingMessage, res: ServerResponse) {
 	}
 }
 
-// DELETE
+/* ------------------------------- DELETE USER ------------------------------ */
 async function deleteUser(
 	req: IncomingMessage,
 	res: ServerResponse,
@@ -65,8 +64,7 @@ async function deleteUser(
 	}
 }
 
-// PUT
-// TODO handle error within service layer
+/* ------------------------------- UPDATE USER ------------------------------ */
 async function updateUser(
 	req: IncomingMessage,
 	res: ServerResponse,

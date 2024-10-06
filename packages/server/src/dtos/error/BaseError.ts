@@ -1,13 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
 
 interface BaseErrorParams {
-	statusCode: number;
-	title: string;
-	path: string;
+	statusCode: number; // HTTP status code
+	title: string; // Error title
 	details: string; // More detailed error info
 	errorCode: string; // Specific error code
-	message: string; // User-friendly error message
-	method: string; // HTTP method that caused the error
+	userMessage: string; // User-friendly error userMessage
 }
 
 class BaseError extends Error {
@@ -22,23 +20,20 @@ class BaseError extends Error {
 	requestId: string;
 
 	constructor({
-		message,
+		userMessage,
 		statusCode,
 		title,
-		path,
 		errorCode,
 		details,
-		method,
 	}: BaseErrorParams) {
-		super(message);
+		super(details);
+		this.userMessage = userMessage;
 		this.statusCode = statusCode;
 		this.title = title;
-		this.timestamp = new Date().toISOString();
-		this.path = path;
 		this.details = details;
 		this.errorCode = errorCode;
-		this.method = method;
 		this.requestId = uuidv4();
+		this.timestamp = new Date().toISOString();
 		Error.captureStackTrace(this, this.constructor);
 	}
 }
