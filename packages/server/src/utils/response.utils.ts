@@ -34,9 +34,6 @@ class HttpResponseHandler {
 		req: IncomingMessage,
 		res: ServerResponse,
 	) {
-		const method = req.method || "Unknown method";
-		const url = req.url || "Unknown URL";
-
 		const customErrors = [
 			NotFoundError,
 			InvalidCredentialsError,
@@ -49,8 +46,8 @@ class HttpResponseHandler {
 
 		for (const CustomError of customErrors) {
 			if (error instanceof CustomError) {
-				error.method = method;
-				error.path = url;
+				error.method = req.method || "Unknown method";
+				error.path = req.url || "Unknown URL";
 
 				HttpResponseHandler.sendHttpResponse(res, error.statusCode, error);
 				return;
