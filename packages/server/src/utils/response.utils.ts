@@ -52,6 +52,8 @@ class HttpResponseHandler {
 				HttpResponseHandler.sendHttpResponse(res, error.statusCode, error);
 				return;
 			}
+
+			HttpResponseHandler.sendHttpResponse(res, 500, "Internal server error");
 		}
 	}
 }
