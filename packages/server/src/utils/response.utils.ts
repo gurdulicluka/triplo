@@ -1,5 +1,4 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { ZodError } from "zod";
 import {
 	DataValidationError,
 	ForbiddenActionError,

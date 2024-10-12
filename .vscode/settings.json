@@ -2,6 +2,11 @@
 	// Automatically format files on save
 	"editor.formatOnSave": true,
 
+	// Unknown at rule for tailwindcss
+	"files.associations": {
+		"*.css": "tailwindcss"
+	},
+
 	// Set default formatter to Prettier
 	"editor.defaultFormatter": "biomejs.biome",
 
