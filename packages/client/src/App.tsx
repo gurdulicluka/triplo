@@ -1,5 +1,15 @@
+import { ChakraProvider } from "@chakra-ui/react";
+import { AuthProvider } from "./providers/AuthProvider";
+import { Router } from "./routes";
+
 function App() {
-	return <div className="bg-red-500 border border-red-500">HELLO</div>;
+	return (
+		<ChakraProvider>
+			<AuthProvider>
+				<Router />
+			</AuthProvider>
+		</ChakraProvider>
+	);
 }
 
 export { App };
