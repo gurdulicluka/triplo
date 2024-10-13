@@ -16,7 +16,7 @@ import {
 } from "react-hook-form";
 
 interface FormTextInputProps<T extends FieldValues> extends InputProps {
-	name: string;
+	name: Path<T>;
 	control: Control<T>;
 	label: string;
 	rules?: RegisterOptions<T>;

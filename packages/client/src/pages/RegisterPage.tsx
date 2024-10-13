@@ -10,9 +10,10 @@ import {
 	Spacer,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { FormTextInput } from "../components/form/FormTextInput";
 
 const RegisterPage = () => {
-	const [input, setInput] = useState("");
+	const [input, setInput] = useState();
 
 	return (
 		<Center className="flex items-center justify-center w-screen h-screen bg-neutral-900">
@@ -26,6 +27,8 @@ const RegisterPage = () => {
 						placeholder="Name"
 						variant="filled"
 					/>
+					{/* TODO */}
+					<FormTextInput name="test" control={"test" as any} label="test" />
 				</FormControl>
 				<FormControl>
 					<FormLabel color="white" w="fit-content" fontSize="sm">
