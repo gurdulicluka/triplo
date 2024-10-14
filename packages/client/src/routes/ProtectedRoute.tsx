@@ -1,4 +1,3 @@
-import { Button } from "@chakra-ui/react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../providers/AuthProvider";
 

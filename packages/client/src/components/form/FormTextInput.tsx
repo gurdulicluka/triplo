@@ -7,11 +7,9 @@ import {
 } from "@chakra-ui/react";
 import {
 	type Control,
-	type FieldPath,
 	type FieldValues,
 	type Path,
 	type RegisterOptions,
-	type UseFormReturn,
 	useController,
 } from "react-hook-form";
 
@@ -19,12 +17,12 @@ interface FormTextInputProps<T extends FieldValues> extends InputProps {
 	name: Path<T>;
 	control: Control<T>;
 	label: string;
-	rules?: RegisterOptions<T>;
+	rules?: Omit<RegisterOptions<T>, "required">;
 }
 
 const FormTextInput = <T extends FieldValues>(props: FormTextInputProps<T>) => {
 	const { name, control, label, rules, ...inputProps } = props;
-	// useController hook from react-hook-form
+
 	const {
 		field,
 		fieldState: { error },
@@ -33,12 +31,30 @@ const FormTextInput = <T extends FieldValues>(props: FormTextInputProps<T>) => {
 		control,
 		rules,
 	});
-
+	// TODO check if this is done
 	return (
-		<FormControl isInvalid={!!error}>
-			{label && <FormLabel htmlFor={name}>{label}</FormLabel>}
-			<Input id={name} {...field} {...inputProps} />
-			{error && <FormErrorMessage>{error.message}</FormErrorMessage>}
+		<FormControl
+			position="relative"
+			mb="8"
+			isRequired={inputProps.isRequired}
+			isInvalid={!!error}
+		>
+			{label && (
+				<FormLabel w="fit-content" htmlFor={name}>
+					{label}
+				</FormLabel>
+			)}
+			<Input
+				focusBorderColor={error ? "red.500" : ""}
+				id={name}
+				{...field}
+				{...inputProps}
+			/>
+			{error?.message && (
+				<FormErrorMessage position="absolute" className="-bottom-5">
+					{error.message}
+				</FormErrorMessage>
+			)}
 		</FormControl>
 	);
 };
