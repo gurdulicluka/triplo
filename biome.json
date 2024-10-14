@@ -26,6 +26,10 @@
 			},
 			"style": {
 				"noDefaultExport": "error"
+			},
+			"correctness": {
+				"noUnusedImports": "warn",
+				"noUnusedVariables": "warn"
 			}
 		}
 	},
