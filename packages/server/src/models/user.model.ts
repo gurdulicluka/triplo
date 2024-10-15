@@ -9,6 +9,7 @@ import {
 
 @Entity()
 @Unique("UQ_EMAIL", ["email"])
+@Unique("UQ_NAME", ["name"])
 class User {
 	@PrimaryGeneratedColumn()
 	id: number;
