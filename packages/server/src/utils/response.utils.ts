@@ -54,7 +54,7 @@ class HttpResponseHandler {
 		];
 
 		/* --------------------------- ZOD ERROR HANDLING --------------------------- */
-		// TODO ZodError handling
+		// TODO ZodError make more user friendly error response, generic structure
 		if (error instanceof ZodError) {
 			HttpResponseHandler.sendHttpResponse(res, 400, error.errors);
 			return;
@@ -64,11 +64,7 @@ class HttpResponseHandler {
 		// TODO Database error handling (e.g. user already exists UNIQUE COLUMN CONSTRAINT take codes from enum)
 		if (error instanceof QueryFailedError) {
 			if (error.driverError.code === PostgresErrorCodeEnum.UniqueViolation) {
-				HttpResponseHandler.sendHttpResponse(
-					res,
-					409,
-					error.driverError.detail,
-				);
+				HttpResponseHandler.sendHttpResponse(res, 409, error.driverError);
 			}
 			return;
 		}

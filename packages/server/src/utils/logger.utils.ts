@@ -1,4 +1,4 @@
-import { addColors, createLogger, format, level, transports } from "winston";
+import { addColors, createLogger, format, transports } from "winston";
 const { combine, colorize, label, timestamp, printf } = format;
 
 const myCustomFormat = format.combine(

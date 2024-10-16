@@ -3,8 +3,7 @@ import { BaseError } from "./BaseError";
 
 const errorDetails = {
 	NotFound: "Resource not found",
-	InvalidCredentials:
-		"The provided username or password is incorrect. Please try again.",
+	InvalidCredentials: "The provided username or password is incorrect. Please try again.",
 	DataValidation: "Data validation failed",
 	ResourceConflict: "Resource conflict occurred",
 	UnauthorizedAccess: "Unauthorized access",
