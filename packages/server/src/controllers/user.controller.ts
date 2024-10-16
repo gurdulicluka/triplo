@@ -19,6 +19,7 @@ class UserController {
 			const userData = JSON.parse(body);
 			const parsedData = userSchema.parse(userData);
 			const user = await this.userService.createUser(parsedData);
+
 			HttpResponseHandler.successResponse(res, user);
 		} catch (error) {
 			HttpResponseHandler.errorResponse(error, req, res);
@@ -26,31 +27,32 @@ class UserController {
 	};
 
 	/* -------------------------------- GET USER -------------------------------- */
-	public getUser = async (
-		req: IncomingMessage,
-		res: ServerResponse,
-		params: { [key: string]: string },
-	) => {
-		const userId = validateParam(res, params.id, "Invalid user ID");
-		if (!userId) return;
+	// public getUser = async (
+	// 	req: IncomingMessage,
+	// 	res: ServerResponse,
+	// 	params: { [key: string]: string },
+	// ) => {
+	// 	const userId = validateParam(res, params.id, "Invalid user ID");
+	// 	if (!userId) return;
 
-		try {
-			const user = await this.userService.getUserById(userId);
-			HttpResponseHandler.successResponse(res, user);
-		} catch (error) {
-			HttpResponseHandler.errorResponse(error, req, res);
-		}
-	};
+	// 	try {
+	// 		const user = await this.userService.getUserById(userId);
+	// 		HttpResponseHandler.successResponse(res, user);
+	// 	} catch (error) {
+	// 		HttpResponseHandler.errorResponse(error, req, res);
+	// 	}
+	// };
 
 	/* ------------------------------ GET ALL USERS ----------------------------- */
-	public getAllUsers = async (req: IncomingMessage, res: ServerResponse) => {
-		try {
-			const users = await this.userService.getAllUsers();
-			HttpResponseHandler.successResponse(res, users);
-		} catch (error) {
-			HttpResponseHandler.errorResponse(error, req, res);
-		}
-	};
+	// public getAllUsers = async (req: IncomingMessage, res: ServerResponse) => {
+	// 	try {
+	// 		const users = await this.userService.getAllUsers();
+
+	// 		HttpResponseHandler.successResponse(res, users);
+	// 	} catch (error) {
+	// 		HttpResponseHandler.errorResponse(error, req, res);
+	// 	}
+	// };
 
 	/* ------------------------------- DELETE USER ------------------------------ */
 	public deleteUser = async (

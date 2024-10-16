@@ -1,4 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
+import { authRoutes } from "./auth.routes";
 import { userRoutes } from "./user.routes";
 
 type Route = {
@@ -12,7 +13,7 @@ type Route = {
 	) => Promise<void>;
 };
 
-const routes: Route[] = [...userRoutes];
+const routes: Route[] = [...userRoutes, ...authRoutes];
 
 export { routes };
 export type { Route };

@@ -9,22 +9,19 @@ import {
 
 @Entity()
 @Unique("UQ_EMAIL", ["email"])
-@Unique("UQ_NAME", ["name"])
-class User {
+@Unique("UQ_USERNAME", ["username"])
+class AuthUser {
 	@PrimaryGeneratedColumn()
 	id: number;
 
 	@Column({ type: "varchar" })
-	name: string;
+	username: string;
 
 	@Column({ type: "varchar" })
 	email: string;
 
 	@Column({ type: "varchar" })
 	password: string;
-
-	@Column({ type: "varchar" })
-	phone: string;
 
 	@UpdateDateColumn()
 	updatedDate: Date;
@@ -33,4 +30,4 @@ class User {
 	createdDate: Date;
 }
 
-export { User };
+export { AuthUser };

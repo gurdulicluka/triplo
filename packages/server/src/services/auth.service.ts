@@ -26,35 +26,35 @@ class AuthService {
 		}
 	}
 
-	public generateToken(userId: number): string {
+	public generateToken = (userId: number): string => {
 		return jwt.sign({ userId }, this.JWT_SECRET, {
 			expiresIn: this.ACCESS_TOKEN_EXPIRATION,
 		});
-	}
+	};
 
-	public generateRefreshToken(userId: number): string {
+	public generateRefreshToken = (userId: number): string => {
 		return jwt.sign({ userId }, this.REFRESH_TOKEN_SECRET, {
 			expiresIn: this.REFRESH_TOKEN_EXPIRATION,
 		});
-	}
+	};
 
-	public validateToken(token: string): { userId: number } | null {
+	public validateToken = (token: string): { userId: number } | null => {
 		try {
 			return jwt.verify(token, this.JWT_SECRET) as { userId: number };
 		} catch (error) {
 			console.error("Token validation failed:", error);
 			return null;
 		}
-	}
+	};
 
-	public validateRefreshToken(token: string): { userId: number } | null {
+	public validateRefreshToken = (token: string): { userId: number } | null => {
 		try {
 			return jwt.verify(token, this.REFRESH_TOKEN_SECRET) as { userId: number };
 		} catch (error) {
 			console.error("Refresh token validation failed:", error);
 			return null;
 		}
-	}
+	};
 }
 
-export const authService = new AuthService();
+export { AuthService };
