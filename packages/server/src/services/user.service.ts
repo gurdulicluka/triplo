@@ -6,36 +6,20 @@ class UserService {
 	private userRepository = db.getRepository(AuthUser);
 
 	/* ------------------------------- CREATE USER ------------------------------ */
-	async createUser(data: Partial<AuthUser>): Promise<AuthUser> {
+	public createUser = async (data: Partial<AuthUser>): Promise<AuthUser> => {
 		const user = this.userRepository.create(data);
 		await this.userRepository.insert(user);
 		return user;
-	}
+	};
 
 	/* -------------------------------- GET USER -------------------------------- */
-
-	// By id
-	// async getUserById(id: number): Promise<AuthUser | null> {
-	// 	const result = await this.userRepository.findOneBy({ id });
-	// 	if (!result) {
-	// 		throw new NotFoundError("AuthUser not found");
-	// 	}
-	// 	return result;
-	// }
-
-	// By email
-	async getUserByEmail(email: string): Promise<AuthUser | null> {
+	public getUserByEmail = async (email: string): Promise<AuthUser | null> => {
 		const result = await this.userRepository.findOneBy({ email });
 		if (!result) {
 			throw new NotFoundError("User not found");
 		}
 		return result;
-	}
-
-	/* ------------------------------ GET ALL USERS ----------------------------- */
-	// async getAllUsers(): Promise<User[]> {
-	// 	return this.userRepository.find();
-	// }
+	};
 
 	/* ------------------------------- UPDATE USER ------------------------------ */
 	async updateUser(
