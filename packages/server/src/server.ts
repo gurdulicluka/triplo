@@ -12,6 +12,7 @@ const startServer = async () => {
 		await initializeDatabase();
 
 		const server = createServer(router);
+
 		server.listen(PORT, () => {
 			logger.debug(`Server running on port ${PORT}`);
 		});

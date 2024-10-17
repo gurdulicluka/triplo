@@ -1,27 +1,39 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { routes } from ".";
-import { logger } from "../utils/logger.utils";
+import { NotFoundError } from "../dtos/error/CustomError";
+import { handleValidateAccessToken } from "../middleware/authMiddleware";
 import { HttpResponseHandler } from "../utils/response.utils";
 import { matchRoute } from "../utils/router.utils";
 
 async function router(req: IncomingMessage, res: ServerResponse) {
-	for (const route of routes) {
-		const { isMatch, params } = matchRoute(req, route);
+	try {
+		let routeMatched = false;
 
-		if (isMatch) {
-			await route.handler(req, res, params || {});
-			return;
+		for (const route of routes) {
+			const { isMatch, params } = matchRoute(req, route);
+
+			if (isMatch) {
+				routeMatched = true;
+
+				// Validate access token on private routes
+				if (!route.publicRoute) {
+					const isAuthorized = handleValidateAccessToken(req, res);
+					if (!isAuthorized) return;
+				}
+
+				// Proceed to route handler
+				await route.handler(req, res, params || {});
+				return;
+			}
 		}
+
+		// If no route matched, throw an error after checking all routes
+		if (!routeMatched) {
+			throw new NotFoundError("No route was found matching the request URL.");
+		}
+	} catch (error) {
+		HttpResponseHandler.errorResponse(error, req, res);
 	}
-
-	logger.error(
-		`Route ${req.url} or ${req.method} method on this route does not exist`,
-	);
-
-	HttpResponseHandler.sendHttpResponse(res, 500, {
-		error: "Something went wrong",
-	});
-	return;
 }
 
 export { router };

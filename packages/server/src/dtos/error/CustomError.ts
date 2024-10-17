@@ -1,14 +1,17 @@
 import { ApplicationErrorCodeEnum } from "../../enums/error.enum";
 import { BaseError } from "./BaseError";
 
+// TODO Refactor errors, make the structure make more sense, currenctly messages are overlapping information or duplicate
+
 const errorDetails = {
-	NotFound: "Resource not found",
-	InvalidCredentials: "The provided username or password is incorrect. Please try again.",
-	DataValidation: "Data validation failed",
-	ResourceConflict: "Resource conflict occurred",
-	UnauthorizedAccess: "Unauthorized access",
-	InternalServerError: "An internal server error occurred",
-	ForbiddenAction: "Action is forbidden",
+	NotFound: "Resource not found.",
+	InvalidCredentials:
+		"The provided login credentials are incorrect. Please try again.",
+	DataValidation: "Data validation failed.",
+	ResourceConflict: "Resource conflict occurred.",
+	UnauthorizedAccess: "Unauthorized access.",
+	InternalServerError: "An internal server error occurred.",
+	ForbiddenAction: "Action is forbidden.",
 };
 
 class NotFoundError extends BaseError {
@@ -24,9 +27,9 @@ class NotFoundError extends BaseError {
 }
 
 class InvalidCredentialsError extends BaseError {
-	constructor(userMessage: string) {
+	constructor() {
 		super({
-			userMessage,
+			userMessage: ApplicationErrorCodeEnum.InvalidCredentials,
 			statusCode: 401,
 			title: "Invalid Credentials",
 			errorCode: ApplicationErrorCodeEnum.InvalidCredentials,
@@ -63,8 +66,8 @@ class UnauthorizedAccessError extends BaseError {
 	constructor(userMessage: string) {
 		super({
 			userMessage,
-			statusCode: 403,
-			title: "Forbidden",
+			statusCode: 401,
+			title: "Unauthorized",
 			errorCode: ApplicationErrorCodeEnum.UnauthorizedAccess,
 			details: errorDetails.UnauthorizedAccess,
 		});
@@ -95,6 +98,18 @@ class ForbiddenActionError extends BaseError {
 	}
 }
 
+class RouteNotFoundError extends BaseError {
+	constructor(userMessage: string) {
+		super({
+			userMessage,
+			statusCode: 404,
+			title: "Route Not Found",
+			errorCode: ApplicationErrorCodeEnum.NotFound,
+			details: "No matching route was found for the requested URL and method.",
+		});
+	}
+}
+
 export {
 	ForbiddenActionError,
 	InternalServerError,
@@ -103,4 +118,5 @@ export {
 	ResourceConflictError,
 	UnauthorizedAccessError,
 	DataValidationError,
+	RouteNotFoundError,
 };

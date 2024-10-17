@@ -1,4 +1,9 @@
-import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import jwt, { TokenExpiredError } from "jsonwebtoken";
+import {
+	InvalidCredentialsError,
+	UnauthorizedAccessError,
+} from "../dtos/error/CustomError";
 
 class AuthService {
 	private readonly JWT_SECRET: string;
@@ -6,7 +11,7 @@ class AuthService {
 
 	// Token expiration in seconds
 	private readonly ACCESS_TOKEN_EXPIRATION: number = 30 * 60; // 30 minutes
-	private readonly REFRESH_TOKEN_EXPIRATION: number = 7 * 24 * 60 * 60; // 7 days
+	private readonly REFRESH_TOKEN_EXPIRATION: number = 30 * 24 * 60 * 60; // 30 days
 
 	constructor() {
 		this.JWT_SECRET = process.env.JWT_SECRET || "default_jwt_secret";
@@ -26,6 +31,17 @@ class AuthService {
 		}
 	}
 
+	public verifyPassword = async (
+		password: string,
+		hashedPassword: string,
+	): Promise<boolean> => {
+		const isPasswordValid = await bcrypt.compare(password, hashedPassword);
+		if (!isPasswordValid) {
+			throw new InvalidCredentialsError();
+		}
+		return isPasswordValid;
+	};
+
 	public generateToken = (userId: number): string => {
 		return jwt.sign({ userId }, this.JWT_SECRET, {
 			expiresIn: this.ACCESS_TOKEN_EXPIRATION,
@@ -42,8 +58,10 @@ class AuthService {
 		try {
 			return jwt.verify(token, this.JWT_SECRET) as { userId: number };
 		} catch (error) {
-			console.error("Token validation failed:", error);
-			return null;
+			if (error instanceof TokenExpiredError) {
+				throw new UnauthorizedAccessError("Token has expired.");
+			}
+			throw new UnauthorizedAccessError("Invalid token.");
 		}
 	};
 
@@ -51,8 +69,10 @@ class AuthService {
 		try {
 			return jwt.verify(token, this.REFRESH_TOKEN_SECRET) as { userId: number };
 		} catch (error) {
-			console.error("Refresh token validation failed:", error);
-			return null;
+			if (error instanceof TokenExpiredError) {
+				throw new UnauthorizedAccessError("Refresh token has expired.");
+			}
+			throw new UnauthorizedAccessError("Invalid refresh token.");
 		}
 	};
 }

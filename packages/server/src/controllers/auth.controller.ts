@@ -1,5 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import bcrypt from "bcrypt";
+import { InvalidCredentialsError } from "../dtos/error/CustomError";
 import { userSchema } from "../schemas/user.schema";
 import { AuthService } from "../services/auth.service";
 import { UserService } from "../services/user.service";
@@ -15,9 +16,6 @@ class AuthController {
 		this.authService = new AuthService();
 	}
 
-	// TODO seems to be working but take another look if its need any more validating or make a utility out of lines 23-25
-	// TODO send back to the frontend a little bit more information, maybe encode the email and username inside as well
-	// TODO SEND when both of the tokens expire in seconds and the datetime as well (reference hello app localstorage)
 	/* ------------------------------- REGISTER USER ------------------------------ */
 	public register = async (req: IncomingMessage, res: ServerResponse) => {
 		try {
@@ -49,37 +47,30 @@ class AuthController {
 		}
 	};
 
-	/* -------------------------------- USER LOGIN -------------------------------- */
-	public async login(req: IncomingMessage, res: ServerResponse) {
+	/* ------------------------------- LOGIN USER ------------------------------- */
+	public login = async (req: IncomingMessage, res: ServerResponse) => {
 		try {
 			const body = await collectRequestBody(req);
 			const { email, password } = JSON.parse(body);
 
-			// Find user by email
 			const user = await this.userService.getUserByEmail(email);
 
 			if (!user) {
-				return HttpResponseHandler.errorResponse("User not found", req, res);
+				throw new InvalidCredentialsError();
 			}
 
-			// Compare the password with hashed password
-			const isPasswordValid = await bcrypt.compare(password, user.password);
+			await this.authService.verifyPassword(password, user.password);
 
-			if (!isPasswordValid) {
-				return HttpResponseHandler.errorResponse("Invalid password", req, res);
-			}
-
-			// Generate tokens
 			const accessToken = this.authService.generateToken(user.id);
 			const refreshToken = this.authService.generateRefreshToken(user.id);
 
-			// Return tokens to the frontend
 			HttpResponseHandler.successResponse(res, { accessToken, refreshToken });
 		} catch (error) {
 			HttpResponseHandler.errorResponse(error, req, res);
 		}
-	}
+	};
 
+	// TODO
 	/* ------------------------------- REFRESH ACCESS TOKEN ------------------------------ */
 	public async refreshAccessToken(req: IncomingMessage, res: ServerResponse) {
 		try {

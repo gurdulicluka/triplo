@@ -5,12 +5,12 @@ import { userRoutes } from "./user.routes";
 type Route = {
 	method: string;
 	url: string;
-
 	handler: (
 		req: IncomingMessage,
 		res: ServerResponse,
 		params: { [key: string]: string },
 	) => Promise<void>;
+	publicRoute?: boolean;
 };
 
 const routes: Route[] = [...userRoutes, ...authRoutes];
