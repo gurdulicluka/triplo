@@ -15,23 +15,20 @@ class UserService {
 	/* -------------------------------- GET USER -------------------------------- */
 	public getUserByEmail = async (email: string): Promise<AuthUser | null> => {
 		const result = await this.userRepository.findOneBy({ email });
-		if (!result) {
-			throw new NotFoundError("User not found");
-		}
 		return result;
 	};
 
 	/* ------------------------------- UPDATE USER ------------------------------ */
-	async updateUser(
+	public updateUser = async (
 		id: number,
 		data: Partial<AuthUser>,
-	): Promise<AuthUser | null> {
+	): Promise<AuthUser | null> => {
 		await this.userRepository.update(id, data);
 		return this.userRepository.findOneBy({ id });
-	}
+	};
 
 	/* ------------------------------- DELETE USER ------------------------------ */
-	async deleteUser(id: number): Promise<void> {
+	public deleteUser = async (id: number): Promise<void> => {
 		const result = await this.userRepository.delete(id);
 		if (result.affected === 0) {
 			throw new NotFoundError(
@@ -39,7 +36,7 @@ class UserService {
 			);
 		}
 		return;
-	}
+	};
 }
 
 export { UserService };

@@ -1,4 +1,9 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
+import {
+	JsonWebTokenError,
+	NotBeforeError,
+	TokenExpiredError,
+} from "jsonwebtoken";
 import { QueryFailedError } from "typeorm";
 import { ZodError } from "zod";
 import {
@@ -52,6 +57,16 @@ class HttpResponseHandler {
 			InternalServerError,
 			ForbiddenActionError,
 		];
+
+		/* --------------------------- JWT ERRORS HANDLING -------------------------- */
+		if (
+			error instanceof JsonWebTokenError ||
+			error instanceof NotBeforeError ||
+			error instanceof TokenExpiredError
+		) {
+			HttpResponseHandler.sendHttpResponse(res, 401, error);
+			return;
+		}
 
 		/* --------------------------- ZOD ERROR HANDLING --------------------------- */
 		// TODO ZodError make more user friendly error response, generic structure

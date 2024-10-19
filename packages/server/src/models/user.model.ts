@@ -2,12 +2,15 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	OneToOne,
 	PrimaryGeneratedColumn,
 	Unique,
 	UpdateDateColumn,
 } from "typeorm";
+import { RefreshToken } from "./refreshToken.model";
 
-@Entity()
+// TODO Error handle the constraints
+@Entity({ name: "USER" })
 @Unique("UQ_EMAIL", ["email"])
 @Unique("UQ_USERNAME", ["username"])
 class AuthUser {
@@ -28,6 +31,12 @@ class AuthUser {
 
 	@CreateDateColumn()
 	createdDate: Date;
+
+	@OneToOne(
+		() => RefreshToken,
+		(refreshToken) => refreshToken.userId,
+	)
+	refreshToken: RefreshToken;
 }
 
 export { AuthUser };

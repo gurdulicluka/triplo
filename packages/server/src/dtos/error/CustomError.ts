@@ -29,7 +29,7 @@ class NotFoundError extends BaseError {
 class InvalidCredentialsError extends BaseError {
 	constructor() {
 		super({
-			userMessage: ApplicationErrorCodeEnum.InvalidCredentials,
+			userMessage: errorDetails.InvalidCredentials,
 			statusCode: 401,
 			title: "Invalid Credentials",
 			errorCode: ApplicationErrorCodeEnum.InvalidCredentials,

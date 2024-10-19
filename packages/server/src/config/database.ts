@@ -1,4 +1,5 @@
 import { DataSource } from "typeorm";
+import { RefreshToken } from "../models/refreshToken.model";
 import { AuthUser } from "../models/user.model";
 import { logger } from "../utils/logger.utils";
 
@@ -9,7 +10,7 @@ const db = new DataSource({
 	database: "postgres",
 	username: "postgres",
 	password: "postgres",
-	entities: [AuthUser],
+	entities: [AuthUser, RefreshToken],
 	synchronize: true,
 	logging: false,
 });
