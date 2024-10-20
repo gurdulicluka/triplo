@@ -19,6 +19,7 @@ class UserService {
 	};
 
 	/* ------------------------------- UPDATE USER ------------------------------ */
+	// TODO Type safety is incomplete, data shouldnt be optional on all, specially columns that are created only in the database
 	public updateUser = async (
 		id: number,
 		data: Partial<AuthUser>,

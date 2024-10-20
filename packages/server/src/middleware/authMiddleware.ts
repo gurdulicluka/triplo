@@ -1,14 +1,13 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { UnauthorizedAccessError } from "../dtos/error/CustomError";
-import { AuthService } from "../services/auth.service"; // Use your singleton service
+import { AuthService } from "../services/auth.service";
 import { HttpResponseHandler } from "../utils/response.utils";
-
-const authService = new AuthService();
 
 export const handleValidateAccessToken = (
 	req: IncomingMessage,
 	res: ServerResponse,
 ) => {
+	const authService = new AuthService();
 	try {
 		const authHeader = req.headers.authorization;
 
@@ -18,7 +17,7 @@ export const handleValidateAccessToken = (
 
 		const token = authHeader.split(" ")[1];
 
-		authService.validateToken(token);
+		authService.validateAccessToken(token);
 
 		return true;
 	} catch (error) {

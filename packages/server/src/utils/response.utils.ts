@@ -59,6 +59,7 @@ class HttpResponseHandler {
 		];
 
 		/* --------------------------- JWT ERRORS HANDLING -------------------------- */
+		// TODO Rethrow better errors for these
 		if (
 			error instanceof JsonWebTokenError ||
 			error instanceof NotBeforeError ||

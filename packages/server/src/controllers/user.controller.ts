@@ -1,8 +1,12 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { userSchema } from "../schemas/user.schema";
+import { type RegisterRequest, registerSchema } from "../schemas/auth.schema";
+import {
+	type UpdateUserRequest,
+	updateUserSchema,
+} from "../schemas/user.schema";
 import { UserService } from "../services/user.service";
 import { validateParam } from "../utils/params.utils";
-import { collectRequestBody } from "../utils/request.utils";
+import { parseRequestBody } from "../utils/request.utils";
 import { HttpResponseHandler } from "../utils/response.utils";
 
 class UserController {
@@ -15,10 +19,8 @@ class UserController {
 	/* ------------------------------- CREATE USER ------------------------------ */
 	public createUser = async (req: IncomingMessage, res: ServerResponse) => {
 		try {
-			const body = await collectRequestBody(req);
-			const userData = JSON.parse(body);
-			const parsedData = userSchema.parse(userData);
-			const user = await this.userService.createUser(parsedData);
+			const body = await parseRequestBody<RegisterRequest>(req, registerSchema);
+			const user = await this.userService.createUser(body);
 
 			HttpResponseHandler.successResponse(res, user);
 		} catch (error) {
@@ -32,10 +34,8 @@ class UserController {
 		res: ServerResponse,
 		params: { [key: string]: string },
 	) => {
-		const userId = validateParam(res, params.id, "Invalid ID format");
-		if (!userId) return;
-
 		try {
+			const userId = validateParam(params.id);
 			await this.userService.deleteUser(userId);
 			HttpResponseHandler.successResponse(res, { id: userId });
 		} catch (error) {
@@ -49,14 +49,14 @@ class UserController {
 		res: ServerResponse,
 		params: { [key: string]: string },
 	) => {
-		const userId = validateParam(res, params.id, "Invalid user ID");
-		if (!userId) return;
-
 		try {
-			const body = await collectRequestBody(req);
-			const userData = JSON.parse(body);
-			const parsedData = userSchema.parse(userData);
-			const user = await this.userService.updateUser(userId, parsedData);
+			const userId = validateParam(params.id);
+			const body = await parseRequestBody<UpdateUserRequest>(
+				req,
+				updateUserSchema,
+			);
+
+			const user = await this.userService.updateUser(userId, body);
 
 			HttpResponseHandler.successResponse(res, user);
 		} catch (error) {

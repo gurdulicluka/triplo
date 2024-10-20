@@ -1,12 +1,14 @@
 import { z } from "zod";
 
-const userSchema = z.object({
-	username: z.string().min(2, "Name is required"),
-	email: z.string().email("Invalid email address"),
-	password: z.string().min(6, "Password must be at least 6 characters"),
+const updateUserSchema = z.object({
+	username: z
+		.string()
+		.min(2, "Username needs to have at least 2 characters")
+		.optional(),
+	email: z.string().email("Invalid email address").optional(),
 });
 
-type UserType = z.infer<typeof userSchema>;
+type UpdateUserRequest = z.infer<typeof updateUserSchema>;
 
-export { userSchema };
-export type { UserType };
+export { updateUserSchema };
+export type { UpdateUserRequest };

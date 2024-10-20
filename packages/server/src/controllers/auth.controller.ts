@@ -1,10 +1,17 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import bcrypt from "bcrypt";
 import { InvalidCredentialsError } from "../dtos/error/CustomError";
-import { userSchema } from "../schemas/user.schema";
+import {
+	type LoginRequest,
+	type RefreshSessionRequest,
+	type RegisterRequest,
+	loginSchema,
+	refreshSessionSchema,
+	registerSchema,
+} from "../schemas/auth.schema";
 import { AuthService } from "../services/auth.service";
 import { UserService } from "../services/user.service";
-import { collectRequestBody } from "../utils/request.utils";
+import { parseRequestBody } from "../utils/request.utils";
 import { HttpResponseHandler } from "../utils/response.utils";
 
 class AuthController {
@@ -19,20 +26,18 @@ class AuthController {
 	/* ------------------------------- REGISTER USER ------------------------------ */
 	public register = async (req: IncomingMessage, res: ServerResponse) => {
 		try {
-			const body = await collectRequestBody(req);
-			const userData = JSON.parse(body);
-			const parsedData = userSchema.parse(userData);
+			const body = await parseRequestBody<RegisterRequest>(req, registerSchema);
 
-			const hashedPassword = await bcrypt.hash(parsedData.password, 10);
+			const hashedPassword = await bcrypt.hash(body.password, 10);
 
 			const userWithHashedPassword = {
-				...parsedData,
+				...body,
 				password: hashedPassword,
 			};
 
 			const user = await this.userService.createUser(userWithHashedPassword);
 
-			const accessToken = this.authService.generateToken(user.id);
+			const accessToken = this.authService.generateAccessToken(user.id);
 			const refreshToken = this.authService.generateRefreshToken(user.id);
 
 			await this.authService.upsertValidRefreshToken({
@@ -49,8 +54,10 @@ class AuthController {
 	/* ------------------------------- LOGIN USER ------------------------------- */
 	public login = async (req: IncomingMessage, res: ServerResponse) => {
 		try {
-			const body = await collectRequestBody(req);
-			const { email, password } = JSON.parse(body);
+			const { email, password } = await parseRequestBody<LoginRequest>(
+				req,
+				loginSchema,
+			);
 
 			const user = await this.userService.getUserByEmail(email);
 
@@ -60,7 +67,7 @@ class AuthController {
 
 			await this.authService.verifyPassword(password, user.password);
 
-			const accessToken = this.authService.generateToken(user.id);
+			const accessToken = this.authService.generateAccessToken(user.id);
 			const refreshToken = this.authService.generateRefreshToken(user.id);
 
 			await this.authService.upsertValidRefreshToken({
@@ -77,13 +84,16 @@ class AuthController {
 	/* ----------------------------- REFRESH SESSION ---------------------------- */
 	public refreshSession = async (req: IncomingMessage, res: ServerResponse) => {
 		try {
-			const body = await collectRequestBody(req);
-			const { refreshToken: originalRefreshToken } = JSON.parse(body);
+			const { refreshToken: originalRefreshToken } =
+				await parseRequestBody<RefreshSessionRequest>(
+					req,
+					refreshSessionSchema,
+				);
 
 			const payload =
 				this.authService.validateRefreshToken(originalRefreshToken);
 
-			const accessToken = this.authService.generateToken(payload.userId);
+			const accessToken = this.authService.generateAccessToken(payload.userId);
 			const refreshToken = this.authService.generateRefreshToken(
 				payload.userId,
 			);
