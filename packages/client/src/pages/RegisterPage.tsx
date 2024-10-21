@@ -3,16 +3,14 @@ import { useForm } from "react-hook-form";
 import { FormTextInput } from "../components/form/FormTextInput";
 
 interface RegisterFormValues {
-	name: string;
-	phone: string;
+	username: string;
 	email: string;
 	password: string;
 	repeatPassword: string;
 }
 
 const RegisterFormDefaultValues: RegisterFormValues = {
-	name: "",
-	phone: "",
+	username: "",
 	email: "",
 	password: "",
 	repeatPassword: "",
@@ -24,17 +22,25 @@ const RegisterPage = () => {
 	});
 
 	return (
-		<Center className="flex items-center justify-center w-screen h-screen bg-neutral-300">
-			<Card h="auto" w="500px" p="10" bg="white" rowGap="0">
+		<Center className="flex items-center justify-center w-screen h-screen bg-neutral-800">
+			<Card
+				h="auto"
+				w="500px"
+				p="10"
+				bg="#f9fafb"
+				rowGap="0"
+				border="2px"
+				borderColor="#60a5fa"
+			>
 				<form
 					onSubmit={handleSubmit(async (data: RegisterFormValues) => {
 						console.log(data);
 					})}
 				>
 					<FormTextInput
-						name="name"
+						name="username"
 						control={control}
-						label="Name"
+						label="Username"
 						rules={{
 							minLength: { message: "testing error message", value: 5 },
 						}}
@@ -50,9 +56,17 @@ const RegisterPage = () => {
 						isRequired
 					/>
 					<FormTextInput
-						name="phone"
+						name="password"
 						control={control}
-						label="Phone number"
+						label="Password"
+						type="password"
+						rules={{ minLength: 5 }}
+						isRequired
+					/>
+					<FormTextInput
+						name="repeatPassword"
+						control={control}
+						label="Repeat Password"
 						type="password"
 						rules={{ minLength: 5 }}
 						isRequired

@@ -31,7 +31,7 @@ const FormTextInput = <T extends FieldValues>(props: FormTextInputProps<T>) => {
 		control,
 		rules,
 	});
-	// TODO check if this is done
+
 	return (
 		<FormControl
 			position="relative"
