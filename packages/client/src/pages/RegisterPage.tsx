@@ -1,15 +1,22 @@
 import { Button, Card, Center } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { type RegisterRequest, registerSchema } from "@triplo/common";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { FormTextInput } from "../components/form/FormTextInput";
 
-interface RegisterFormValues {
-	username: string;
-	email: string;
-	password: string;
-	repeatPassword: string;
-}
+const registerFormSchema = registerSchema
+	.extend({
+		repeatPassword: z.string(),
+	})
+	.refine((data) => data.password === data.repeatPassword, {
+		path: ["repeatPassword"],
+		message: "Passwords don't match",
+	});
 
-const RegisterFormDefaultValues: RegisterFormValues = {
+type RegisterFormRequest = z.infer<typeof registerFormSchema>;
+
+const RegisterFormDefaultValues: RegisterFormRequest = {
 	username: "",
 	email: "",
 	password: "",
@@ -17,7 +24,8 @@ const RegisterFormDefaultValues: RegisterFormValues = {
 };
 
 const RegisterPage = () => {
-	const { control, handleSubmit } = useForm<RegisterFormValues>({
+	const { control, handleSubmit } = useForm<RegisterFormRequest>({
+		resolver: zodResolver(registerFormSchema),
 		defaultValues: RegisterFormDefaultValues,
 	});
 
@@ -33,7 +41,7 @@ const RegisterPage = () => {
 				borderColor="#60a5fa"
 			>
 				<form
-					onSubmit={handleSubmit(async (data: RegisterFormValues) => {
+					onSubmit={handleSubmit(async (data: RegisterRequest) => {
 						console.log(data);
 					})}
 				>
