@@ -8,6 +8,23 @@ interface ValidateTokenReturn extends JwtPayload {
 	userId: number;
 }
 
+/* 
+TODO 
+Implement session refresh handled by access token being present in the local storage without any other parameters,
+refesh token is stored in http cookie.
+
+Backend will check on every request if the access token is about to expire (valid for <5min),
+if it is about to expire it will generate a new access token and refresh token.
+The access token will be sent in response header and refresh token in http cookie.
+
+The frontend will handle that in middleware on every response it will look for those headers,
+if the headers are present it will set the accessToken accordingly.
+
+Check if refresh token stored in the http cookie needs to be handled additionally on the frontend as well.
+
+Try to make all those functions and checks declared only in the authMiddleware.
+ */
+
 class AuthService {
 	private refreshTokenRepository = db.getRepository(RefreshToken);
 	private readonly JWT_SECRET: string;
