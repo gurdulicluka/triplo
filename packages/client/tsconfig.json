@@ -1,15 +1,18 @@
 {
-  "extends": "../../tsconfig.json", // Extend the root tsconfig
-  "compilerOptions": {
-    "jsx": "react-jsx", // Or "preserve" for JSX
-    "moduleResolution": "node", // Ensure module resolution strategy is Node-like
-    "types": ["vite/client"], // Add Vite's client types for better dev experience
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
-    "paths": {
-      "@triplo/common": ["../common/src"] // Optional: Path mapping to the common package
-    }
-  },
-  "include": ["src/**/*"], // Include all source files in src/
-  "exclude": ["node_modules", "dist"]
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"jsx": "react-jsx",
+		"module": "ESNext",
+		"skipLibCheck": true,
+		"moduleResolution": "Bundler",
+		"types": ["vite/client"],
+		"allowImportingTsExtensions": true,
+		"noEmit": true,
+		"paths": {
+			"@triplo/common": ["../common/src"],
+			"@/*": ["./src/*"]
+		}
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist"]
 }

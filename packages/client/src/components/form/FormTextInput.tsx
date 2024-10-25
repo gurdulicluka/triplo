@@ -1,7 +1,6 @@
 import {
-	FormControl,
-	FormErrorMessage,
-	FormLabel,
+	FieldErrorText,
+	FieldLabel,
 	Input,
 	type InputProps,
 } from "@chakra-ui/react";
@@ -12,6 +11,7 @@ import {
 	type RegisterOptions,
 	useController,
 } from "react-hook-form";
+import { Field } from "../ui/field";
 
 interface FormTextInputProps<T extends FieldValues> extends InputProps {
 	name: Path<T>;
@@ -32,30 +32,32 @@ const FormTextInput = <T extends FieldValues>(props: FormTextInputProps<T>) => {
 		rules,
 	});
 
+	// TODO Tailwind Preflight is turned off because it messes with chakra ui
 	return (
-		<FormControl
+		<Field
 			position="relative"
 			mb="8"
-			isRequired={inputProps.isRequired}
-			isInvalid={!!error}
+			required={inputProps.required}
+			invalid={!!error}
 		>
 			{label && (
-				<FormLabel w="fit-content" htmlFor={name}>
+				<FieldLabel color="black" w="fit-content" htmlFor={name}>
 					{label}
-				</FormLabel>
+				</FieldLabel>
 			)}
 			<Input
-				focusBorderColor={error ? "red.500" : ""}
+				color="black"
+				focusRingColor={error ? "red.500" : ""}
 				id={name}
 				{...field}
 				{...inputProps}
 			/>
 			{error?.message && (
-				<FormErrorMessage position="absolute" className="-bottom-5">
+				<FieldErrorText position="absolute" className="-bottom-5">
 					{error.message}
-				</FormErrorMessage>
+				</FieldErrorText>
 			)}
-		</FormControl>
+		</Field>
 	);
 };
 

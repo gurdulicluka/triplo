@@ -1,14 +1,14 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { Provider } from "./components/ui/provider";
 import { AuthProvider } from "./providers/AuthProvider";
 import { Router } from "./routes";
 
 function App() {
 	return (
-		<ChakraProvider>
+		<Provider>
 			<AuthProvider>
 				<Router />
 			</AuthProvider>
-		</ChakraProvider>
+		</Provider>
 	);
 }
 
