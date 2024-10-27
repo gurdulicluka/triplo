@@ -17,7 +17,7 @@ async function router(req: IncomingMessage, res: ServerResponse) {
 
 				// Validate access token on private routes
 				if (!route.publicRoute) {
-					const isAuthorized = handleValidateAccessToken(req, res);
+					const isAuthorized = handleValidateAccessToken(req);
 					if (!isAuthorized) return;
 				}
 

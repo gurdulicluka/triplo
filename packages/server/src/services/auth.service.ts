@@ -38,25 +38,19 @@ class AuthService {
 
 	constructor() {
 		this.JWT_SECRET = process.env.JWT_SECRET ?? this.FALLBACK_JWT_SECRET;
-		this.JWT_REFRESH_SECRET =
-			process.env.JWT_REFRESH_SECRET ?? this.FALLBACK_REFRESH_SECRET;
+		this.JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET ?? this.FALLBACK_REFRESH_SECRET;
 
 		if (this.JWT_SECRET === "undefined") {
 			throw new Error("JWT_SECRET is missing in environment variables.");
 		}
 
 		if (this.JWT_REFRESH_SECRET === "undefined") {
-			throw new Error(
-				"JWT_REFRESH_SECRET is missing in environment variables.",
-			);
+			throw new Error("JWT_REFRESH_SECRET is missing in environment variables.");
 		}
 	}
 
 	/* ----------------------------- VERIFY PASSWORD ---------------------------- */
-	public verifyPassword = async (
-		password: string,
-		hashedPassword: string,
-	): Promise<boolean> => {
+	public verifyPassword = async (password: string, hashedPassword: string): Promise<boolean> => {
 		const isPasswordValid = await bcrypt.compare(password, hashedPassword);
 		if (!isPasswordValid) {
 			throw new InvalidCredentialsError();
@@ -71,16 +65,16 @@ class AuthService {
 		});
 	};
 
-	/* -------------------------- VALIDATE ACCESS TOKEN ------------------------- */
-	public validateAccessToken = (token: string): ValidateTokenReturn => {
-		return jwt.verify(token, this.JWT_SECRET) as ValidateTokenReturn;
-	};
-
 	/* ------------------------- GENERATE REFRESH TOKEN ------------------------- */
 	public generateRefreshToken = (userId: number): string => {
 		return jwt.sign({ userId }, this.JWT_REFRESH_SECRET, {
 			expiresIn: this.REFRESH_TOKEN_EXPIRATION,
 		});
+	};
+
+	/* -------------------------- VALIDATE ACCESS TOKEN ------------------------- */
+	public validateAccessToken = (token: string): ValidateTokenReturn => {
+		return jwt.verify(token, this.JWT_SECRET) as ValidateTokenReturn;
 	};
 
 	/* ------------------------- VALIDATE REFRESH TOKEN ------------------------- */
@@ -89,12 +83,8 @@ class AuthService {
 	};
 
 	/* -------------------------- ROTATE REFRESH TOKEN -------------------------- */
-	/* 
-	Used on register, login and session refresh to rotate refresh tokens
-	 */
-	public upsertValidRefreshToken = async (
-		data: Partial<RefreshToken>,
-	): Promise<void> => {
+	// Used on register, login and middleware to rotate refresh tokens
+	public upsertValidRefreshToken = async (data: Partial<RefreshToken>): Promise<void> => {
 		await this.refreshTokenRepository.upsert(data, ["userId"]);
 	};
 }

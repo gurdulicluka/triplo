@@ -21,7 +21,7 @@ class HttpResponseHandler {
 	/* -------------------------------------------------------------------------- */
 	/*                        GENERIC HTTP RESPONSE HANDLER                       */
 	/* -------------------------------------------------------------------------- */
-	public static sendHttpResponse(
+	static sendHttpResponse(
 		res: ServerResponse,
 		statusCode: number,
 		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -30,6 +30,19 @@ class HttpResponseHandler {
 		res.statusCode = statusCode;
 		res.setHeader("Content-Type", "application/json");
 		res.end(JSON.stringify(data));
+	}
+
+	// Used in auth responses
+	static attachAuthHeadersToResponse(
+		res: ServerResponse,
+		accessToken: string,
+		refreshToken: string,
+	) {
+		res.setHeader("Authorization", `Bearer ${accessToken}`);
+		res.setHeader(
+			"Set-Cookie",
+			`refreshToken=${refreshToken}; HttpOnly; Secure; Path=/; SameSite=Strict`,
+		);
 	}
 
 	/* -------------------------------------------------------------------------- */
