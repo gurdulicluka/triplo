@@ -1,9 +1,10 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { type RegisterRequest, registerSchema } from "../schemas/auth.schema";
 import {
+	type RegisterRequest,
 	type UpdateUserRequest,
+	registerSchema,
 	updateUserSchema,
-} from "../schemas/user.schema";
+} from "@triplo/common";
 import { UserService } from "../services/user.service";
 import { validateParam } from "../utils/params.utils";
 import { parseRequestBody } from "../utils/request.utils";

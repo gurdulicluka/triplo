@@ -9,7 +9,7 @@
 		"allowImportingTsExtensions": true,
 		"noEmit": true,
 		"paths": {
-			"@triplo/common": ["../common/src"],
+			"@triplo/common": ["../common/dist"],
 			"@/*": ["./src/*"]
 		}
 	},

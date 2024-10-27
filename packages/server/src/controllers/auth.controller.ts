@@ -1,6 +1,4 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import bcrypt from "bcrypt";
-import { InvalidCredentialsError } from "../dtos/error/CustomError";
 import {
 	type LoginRequest,
 	type RefreshSessionRequest,
@@ -8,7 +6,9 @@ import {
 	loginSchema,
 	refreshSessionSchema,
 	registerSchema,
-} from "../schemas/auth.schema";
+} from "@triplo/common";
+import bcrypt from "bcrypt";
+import { InvalidCredentialsError } from "../dtos/error/CustomError";
 import { AuthService } from "../services/auth.service";
 import { UserService } from "../services/user.service";
 import { parseRequestBody } from "../utils/request.utils";
