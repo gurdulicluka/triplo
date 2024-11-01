@@ -1,9 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import {
-	JsonWebTokenError,
-	NotBeforeError,
-	TokenExpiredError,
-} from "jsonwebtoken";
+import { JsonWebTokenError, NotBeforeError, TokenExpiredError } from "jsonwebtoken";
 import { QueryFailedError } from "typeorm";
 import { ZodError } from "zod";
 import {
@@ -21,7 +17,7 @@ class HttpResponseHandler {
 	/* -------------------------------------------------------------------------- */
 	/*                        GENERIC HTTP RESPONSE HANDLER                       */
 	/* -------------------------------------------------------------------------- */
-	static sendHttpResponse(
+	private static sendHttpResponse(
 		res: ServerResponse,
 		statusCode: number,
 		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -33,16 +29,9 @@ class HttpResponseHandler {
 	}
 
 	// Used in auth responses
-	static attachAuthHeadersToResponse(
-		res: ServerResponse,
-		accessToken: string,
-		refreshToken: string,
-	) {
+	static attachAuthHeadersToResponse(res: ServerResponse, accessToken: string, refreshToken: string) {
 		res.setHeader("Authorization", `Bearer ${accessToken}`);
-		res.setHeader(
-			"Set-Cookie",
-			`refreshToken=${refreshToken}; HttpOnly; Secure; Path=/; SameSite=Strict`,
-		);
+		res.setHeader("Set-Cookie", `refreshToken=${refreshToken}; HttpOnly; Secure; Path=/; SameSite=Strict`);
 	}
 
 	/* -------------------------------------------------------------------------- */
@@ -56,11 +45,7 @@ class HttpResponseHandler {
 	/* -------------------------------------------------------------------------- */
 	/*                           ERROR RESPONSE HANDLER                           */
 	/* -------------------------------------------------------------------------- */
-	static errorResponse(
-		error: unknown,
-		req: IncomingMessage,
-		res: ServerResponse,
-	) {
+	static errorResponse(error: unknown, req: IncomingMessage, res: ServerResponse) {
 		const applicationErrors = [
 			NotFoundError,
 			InvalidCredentialsError,

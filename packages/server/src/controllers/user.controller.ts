@@ -18,7 +18,7 @@ class UserController {
 	}
 
 	/* ------------------------------- CREATE USER ------------------------------ */
-	public createUser = async (req: IncomingMessage, res: ServerResponse) => {
+	createUser = async (req: IncomingMessage, res: ServerResponse) => {
 		try {
 			const body = await parseRequestBody<RegisterRequest>(req, registerSchema);
 			const user = await this.userService.createUser(body);
@@ -30,11 +30,7 @@ class UserController {
 	};
 
 	/* ------------------------------- DELETE USER ------------------------------ */
-	public deleteUser = async (
-		req: IncomingMessage,
-		res: ServerResponse,
-		params: { [key: string]: string },
-	) => {
+	deleteUser = async (req: IncomingMessage, res: ServerResponse, params: { [key: string]: string }) => {
 		try {
 			const userId = validateParam(params.id);
 			await this.userService.deleteUser(userId);
@@ -45,17 +41,10 @@ class UserController {
 	};
 
 	/* ------------------------------- UPDATE USER ------------------------------ */
-	public updateUser = async (
-		req: IncomingMessage,
-		res: ServerResponse,
-		params: { [key: string]: string },
-	) => {
+	updateUser = async (req: IncomingMessage, res: ServerResponse, params: { [key: string]: string }) => {
 		try {
 			const userId = validateParam(params.id);
-			const body = await parseRequestBody<UpdateUserRequest>(
-				req,
-				updateUserSchema,
-			);
+			const body = await parseRequestBody<UpdateUserRequest>(req, updateUserSchema);
 
 			const user = await this.userService.updateUser(userId, body);
 

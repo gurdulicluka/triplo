@@ -14,9 +14,4 @@ export const authRoutes: Route[] = [
 		handler: authController.register,
 		publicRoute: true,
 	},
-	// {
-	// 	method: "POST",
-	// 	url: "/auth/refresh-session",
-	// 	handler: authController.refreshSession,
-	// },
 ];

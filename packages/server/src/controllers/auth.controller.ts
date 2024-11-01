@@ -17,7 +17,7 @@ class AuthController {
 	}
 
 	/* ------------------------------- REGISTER USER ------------------------------ */
-	public register = async (req: IncomingMessage, res: ServerResponse) => {
+	register = async (req: IncomingMessage, res: ServerResponse) => {
 		try {
 			const body = await parseRequestBody<RegisterRequest>(req, registerSchema);
 
@@ -40,7 +40,7 @@ class AuthController {
 	};
 
 	/* ------------------------------- LOGIN USER ------------------------------- */
-	public login = async (req: IncomingMessage, res: ServerResponse) => {
+	login = async (req: IncomingMessage, res: ServerResponse) => {
 		try {
 			const { email, password } = await parseRequestBody<LoginRequest>(req, loginSchema);
 
