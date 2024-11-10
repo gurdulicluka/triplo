@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { routes } from ".";
 import { NotFoundError } from "../dtos/error/CustomError";
-import { handleValidateAccessToken } from "../middleware/authMiddleware";
+import { AuthMiddleware } from "../middleware/authMiddleware";
 import { HttpResponseHandler } from "../utils/response.utils";
 import { matchRoute } from "../utils/router.utils";
 
@@ -15,10 +15,11 @@ async function router(req: IncomingMessage, res: ServerResponse) {
 			if (isMatch) {
 				routeMatched = true;
 
-				// Validate access token on private routes
+				// Validate session/tokens on private routes
 				if (!route.publicRoute) {
-					const isAuthorized = handleValidateAccessToken(req);
-					if (!isAuthorized) return;
+					const authMiddleware = new AuthMiddleware();
+					const hasSession = authMiddleware.validateSession(req);
+					if (!hasSession) return;
 				}
 
 				// Proceed to route handler

@@ -40,11 +40,11 @@ class AuthService {
 		this.JWT_SECRET = process.env.JWT_SECRET ?? this.FALLBACK_JWT_SECRET;
 		this.JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET ?? this.FALLBACK_REFRESH_SECRET;
 
-		if (this.JWT_SECRET === "undefined") {
+		if (this.JWT_SECRET === "fallback_jwt_secret") {
 			throw new Error("JWT_SECRET is missing in environment variables.");
 		}
 
-		if (this.JWT_REFRESH_SECRET === "undefined") {
+		if (this.JWT_REFRESH_SECRET === "fallback_refresh_secret") {
 			throw new Error("JWT_REFRESH_SECRET is missing in environment variables.");
 		}
 	}

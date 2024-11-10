@@ -1,6 +1,9 @@
 import type { IncomingMessage } from "node:http";
 import { ZodError, type z } from "zod";
 
+/**
+ * Parses the JSON request body and validates it against a Zod schema.
+ */
 async function parseRequestBody<T>(req: IncomingMessage, schema: z.ZodSchema<T>): Promise<T> {
 	return new Promise((resolve, reject) => {
 		let body = "";
@@ -30,6 +33,9 @@ async function parseRequestBody<T>(req: IncomingMessage, schema: z.ZodSchema<T>)
 	});
 }
 
+/**
+ * Extracts authentication tokens from the request headers and cookies.
+ */
 function getAuthHeadersFromRequest(req: IncomingMessage) {
 	const accessToken = req.headers.authorization?.split(" ")[1];
 	const cookies = req.headers.cookie;

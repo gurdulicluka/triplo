@@ -3,15 +3,25 @@ import { UnauthorizedAccessError } from "../dtos/error/CustomError";
 import { AuthService } from "../services/auth.service";
 import { getAuthHeadersFromRequest } from "../utils/request.utils";
 
-export const handleValidateAccessToken = (req: IncomingMessage) => {
-	const authService = new AuthService();
-	const { accessToken } = getAuthHeadersFromRequest(req);
+class AuthMiddleware {
+	private authService: AuthService;
 
-	if (!accessToken) {
-		throw new UnauthorizedAccessError("Access unauthorized");
+	constructor() {
+		this.authService = new AuthService();
 	}
 
-	authService.validateAccessToken(accessToken);
+	public validateSession(req: IncomingMessage) {
+		const { accessToken, refreshToken } = getAuthHeadersFromRequest(req);
 
-	return true;
-};
+		if (!accessToken || !refreshToken) {
+			throw new UnauthorizedAccessError("Access unauthorized");
+		}
+
+		this.authService.validateAccessToken(accessToken);
+		this.authService.validateRefreshToken(refreshToken);
+
+		return true;
+	}
+}
+
+export { AuthMiddleware };
